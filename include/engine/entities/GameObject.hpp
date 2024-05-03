@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector2D.hpp"
+#include <string>
 
 struct GameObject
 {
@@ -32,6 +33,14 @@ public:
         this->m_speed = speed;
     }
 
+    const std::string& getTextureId() const {
+        return m_textureId;
+    }
+
+    void setTextureId(const std::string& textureId) {
+        m_textureId = textureId;
+    }
+
     const Vector2D& getDirection() const {
         return m_direction;
     }
@@ -52,6 +61,7 @@ protected:
 	bool m_alive;
 	float m_acceleration;
 	float m_speed;
+    std::string m_textureId;
 	Vector2D m_direction;
 	Vector2D m_position;
 };

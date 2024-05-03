@@ -8,16 +8,17 @@
 #include "GameStates.h"
 #include "entities/GameObject.hpp"
 #include "EventHandler.h"
+#include "TextureManager.h"
 #include "entities/Action.h"
 struct Engine
 {
 public:
-	Engine(const char* title);
+	typedef void (*CallbackFunction)(SDL_Renderer*);
+	Engine(const char* title, CallbackFunction renderCallback);
 	~Engine();
 
 	int run();
 
-	bool loadAsset(std::string name, std::string path);
 	void addGameObject(GameObject* gameObject);
 
 	void update();
@@ -25,6 +26,7 @@ public:
 
 	void addState(States state);
 	void removeState();
+	SDL_Renderer* getRenderer();
 private:
 	bool m_running;
 
@@ -37,4 +39,6 @@ private:
 	std::vector<States> m_states;
 
 	std::vector<GameObject*> m_objects;
+
+	CallbackFunction m_renderStaticImages;
 };

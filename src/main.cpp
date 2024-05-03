@@ -1,9 +1,13 @@
 #include <iostream>
 #include "engine/Engine.h"
+#include "app/GameInit.cpp"	
 
 int main(int argc, char** argv)
 {
-	Engine engine = Engine("RunAndShoot");
-	int exitcode = engine.run();
-	return exitcode;
+	SDL_Init(SDL_INIT_VIDEO);
+	
+	Engine engine = Engine("RunAndShoot", GameInit::drawStaticImages);
+	GameInit::loadTextures(engine.getRenderer());
+
+	return engine.run();
 }

@@ -1,9 +1,11 @@
 #include "engine/Engine.h"
 
-Engine::Engine(const char* title)
+Engine::Engine(const char* title, CallbackFunction renderCallback)
 {
 	m_window = SDL_CreateWindow(title, 1920, 1050, 0);
-	m_renderer = SDL_CreateRenderer(m_window, title, 0);
+	m_renderer = SDL_CreateRenderer(m_window, NULL, 0);
+
+	m_renderStaticImages = renderCallback;
 
 	m_currentState = START_SCEEN;
 	m_running = true;
@@ -24,11 +26,6 @@ int Engine::run()
 	return 0;
 }
 
-bool Engine::loadAsset(std::string name, std::string path)
-{
-	return false;
-}
-
 void Engine::addGameObject(GameObject* gameObject)
 {
 	m_objects.push_back(gameObject);
@@ -46,10 +43,13 @@ void Engine::update()
 
 void Engine::render()
 {
+	SDL_RenderClear(m_renderer);
+	m_renderStaticImages(m_renderer);
 	for (auto* object : m_objects)
 	{
 		object->render();
 	}
+	SDL_RenderPresent(m_renderer);
 }
 
 void Engine::addState(States state)
@@ -60,4 +60,9 @@ void Engine::addState(States state)
 void Engine::removeState()
 {
 	m_states.pop_back();
+}
+
+SDL_Renderer* Engine::getRenderer()
+{
+	return m_renderer;
 }
