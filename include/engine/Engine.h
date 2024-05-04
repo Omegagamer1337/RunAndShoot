@@ -6,10 +6,11 @@
 #include "SDL.h"
 
 #include "GameStates.h"
-#include "entities/GameObject.hpp"
-#include "EventHandler.h"
+#include "entities/Pawn.h"
 #include "TextureManager.h"
+#include "EventHandler.h"
 #include "entities/Action.h"
+
 struct Engine
 {
 public:
@@ -19,7 +20,7 @@ public:
 
 	int run();
 
-	void addGameObject(GameObject* gameObject);
+	void addGameObject(std::vector<Pawn*> gameObjects);
 
 	void update();
 	void render();
@@ -33,12 +34,10 @@ private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
 
-	EventHandler m_eventHandler;
-
 	States m_currentState;
 	std::vector<States> m_states;
 
-	std::vector<GameObject*> m_objects;
+	std::vector<Pawn*> m_objects;
 
 	CallbackFunction m_renderStaticImages;
 };

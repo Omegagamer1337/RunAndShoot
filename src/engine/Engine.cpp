@@ -18,36 +18,57 @@ Engine::~Engine()
 
 int Engine::run()
 {
+	float startFrame, endFrame;
+
 	while (m_running)
 	{
+		startFrame = SDL_GetTicks();
+		EventHandler::Instance()->checkEvents();
 		this->update();
 		this->render();
+		endFrame = SDL_GetTicks();
+		float elapsedMS = (endFrame - startFrame) / 1000.0f;
+		SDL_Delay(floor(16.666f - elapsedMS));
 	}
 	return 0;
 }
 
-void Engine::addGameObject(GameObject* gameObject)
+void Engine::addGameObject(std::vector<Pawn*> gameObjects)
 {
-	m_objects.push_back(gameObject);
+	for (auto* object : gameObjects)
+	{
+		m_objects.push_back(object);
+	}
 }
 
 void Engine::update()
 {
-	m_eventHandler.checkEvents();
-	m_running = !m_eventHandler.isPressed(Action::QUIT);
+	m_running = !EventHandler::Instance()->isPressed(Action::QUIT);
+
+	m_objects.erase(
+		std::remove_if(
+			m_objects.begin(), 
+			m_objects.end(),
+			[](const auto* object) { return !object->isAlive(); }
+		),
+		m_objects.end()
+	);
+
 	for (auto* object : m_objects)
 	{
 		object->update();
 	}
+
 }
 
 void Engine::render()
 {
 	SDL_RenderClear(m_renderer);
 	m_renderStaticImages(m_renderer);
+
 	for (auto* object : m_objects)
 	{
-		object->render();
+		object->render(m_renderer);
 	}
 	SDL_RenderPresent(m_renderer);
 }

@@ -39,6 +39,7 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer* re
 		SDL_DestroyTexture(pTexture);
 		return false;
 	}
+	SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
 
 	SDL_UpdateTexture(pTexture, nullptr, image_data, width * 4);
 
@@ -59,7 +60,8 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 	destRect.x = x;
 	destRect.y = y;
 
-	SDL_RenderTexture(pRenderer, m_textureMap[id], &srcRect, &destRect);
+	SDL_RenderTexture(pRenderer, m_textureMap[id], NULL, &destRect);
+
 }
 
 void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, double angle, int alpha, SDL_Renderer* pRenderer, SDL_FlipMode flip)
@@ -74,7 +76,7 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 	destRect.y = y;
 
 	SDL_SetTextureAlphaMod(m_textureMap[id], alpha);
-	SDL_RenderTextureRotated(pRenderer, m_textureMap[id], &srcRect, &destRect, angle, 0, flip);
+	SDL_RenderTextureRotated(pRenderer, m_textureMap[id], NULL, &destRect, angle, NULL, flip);
 }
 
 void TextureManager::drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* pRenderer)

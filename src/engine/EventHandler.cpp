@@ -1,5 +1,7 @@
 #include "engine/EventHandler.h"
 
+EventHandler* EventHandler::s_pInstance = 0;
+
 bool EventHandler::isPressed(const Action action)
 {
 	switch (action)
@@ -8,9 +10,9 @@ bool EventHandler::isPressed(const Action action)
 		return m_inputState.quit;
 	case Action::ATTACK:
 		return m_inputState.attack;
-	case Action::BACKWARD:
+	case Action::DOWN:
 		return m_inputState.backward;
-	case Action::FORWARD:
+	case Action::UP:
 		return m_inputState.forward;
 	case Action::LEFT:
 		return m_inputState.left;

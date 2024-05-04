@@ -3,8 +3,8 @@ enum class Action {
 	QUIT,
 	MENU,
 	ATTACK,
-	FORWARD,
-	BACKWARD,
+	UP,
+	DOWN,
 	LEFT,
 	RIGTH
 	// Add more actions as needed

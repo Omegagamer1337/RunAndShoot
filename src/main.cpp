@@ -8,6 +8,7 @@ int main(int argc, char** argv)
 	
 	Engine engine = Engine("RunAndShoot", GameInit::drawStaticImages);
 	GameInit::loadTextures(engine.getRenderer());
+	engine.addGameObject(GameInit::getGameObjects());
 
 	return engine.run();
 }
